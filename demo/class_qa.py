@@ -199,12 +199,15 @@ def record_question(
 ) -> np.ndarray | None:
     """Record one question. In `enter` mode, wait for Enter first; otherwise
     wait for speech onset. Returns mono float32 audio, or None."""
-    onset = max(0.008, ambient * 3.5)
+    onset = max(0.010, ambient * 3.5)
     quiet = onset * 0.5
+
+    # Drop whatever is already buffered (e.g. the robot's own speech).
+    drain(mini, 0.35)
 
     if enter:
         input("  press Enter, then ask your question ")
-        drain(mini, 0.3)
+        drain(mini, 0.35)
 
     chunks: list[np.ndarray] = []
     recording = False
