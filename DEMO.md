@@ -86,6 +86,25 @@ Show the one-line pipeline change live if there's time:
 ~/.venvs/reachy-mini/bin/python demo/class_qa.py --text
 ```
 
+## Act 5 — It books office hours (3 min)
+
+```bash
+~/.venvs/reachy-mini/bin/python demo/book_office_hours.py \
+    --name "Student Name" --email student@tufts.edu
+```
+
+Reachy reads the next open slots for the "Tufts Office Hours" event type.
+Say which one works ("Tuesday at 10"), confirm, and it books **for real**
+through the Calendly Scheduling API — calendar invite, Zoom link and
+reminders are all handled by Calendly. Clean up test bookings with:
+
+```bash
+~/.venvs/reachy-mini/bin/python demo/schedule_demo.py --upcoming
+~/.venvs/reachy-mini/bin/python demo/schedule_demo.py --cancel <event-uri>
+```
+
+Rehearse with `--dry-run` (never books) or drive it by typing with `--text`.
+
 ## Live-coding cards (give these to opencode on stage)
 
 Each is a small, runnable change an agent can make in a minute or two:
@@ -111,6 +130,7 @@ Each is a small, runnable change an agent can make in a minute or two:
 | Camera black | Move a lamp; re-run `scripts/check.py` |
 | Face not detected | Sit closer, face the robot, brighten the room |
 | Q&A can't hear you | `--text` mode (typed questions still speak answers) |
+| Booking errors or no Zoom link | Rehearse `--dry-run`; fall back to `schedule_demo.py --link` (single-use booking URL) |
 | No network | `--stt whisper` (local), `--model gpt-oss:20b` (local), `--tts say` (offline voice) |
 | Daemon died | `zsh scripts/daemon.sh` again in its terminal |
 | Everything is weird | `pkill -f reachy-daemon-localhost`, wait 5 s, restart daemon |

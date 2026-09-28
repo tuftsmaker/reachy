@@ -19,6 +19,9 @@ macOS-specific blockers, and wrote the demos below.
 | `demo/face_tracking.py` | Reachy follows the closest face (detection runs in the daemon) |
 | `demo/clap_antennas.py` | Antennas jump with claps, music, or voices |
 | `demo/class_qa.py` | Ask about the class; answers out loud, with body language |
+| `demo/book_office_hours.py` | Conversational booking: it offers open office-hours slots and books one via Calendly |
+| `demo/schedule_demo.py` | Calendly helper CLI: list event types, show slots, book, cancel, create links |
+| `demo/calendly_tools.py` | Thin Calendly API v2 + Scheduling API client (stdlib only) |
 
 ## Quick start
 
@@ -108,6 +111,28 @@ python demo/class_qa.py                 # voice: press Enter, then ask
 python demo/class_qa.py --mode auto     # keep listening (voice activity)
 python demo/class_qa.py --text          # type questions (no microphone)
 ```
+
+## Office hours booking (`demo/book_office_hours.py`)
+
+Reachy can read your open office-hours slots and book one, conversationally,
+through the **Calendly Scheduling API** (`POST /invitees` -- a real booking,
+with the usual calendar invite, Zoom link and reminders).
+
+- Token: Calendly personal access token (or an OAuth token) at
+  `~/.config/tuftsmaker/calendly_key`, with `users:read`,
+  `event_types:read`, `scheduled_events:read/write` and
+  `scheduling_links:write` scopes. The Scheduling API needs a **paid plan**;
+  `schedule_demo.py --link` works on any plan (it hands out a single-use
+  booking URL instead).
+- The event type is matched by name (`--event "office hours"`), and the
+  location kind (e.g. `zoom_conference`) is read from its configuration.
+
+```bash
+python demo/book_office_hours.py --name "Your Name" --email you@tufts.edu
+python demo/book_office_hours.py --dry-run      # rehearse without booking
+python demo/book_office_hours.py --text         # type instead of speaking
+```
+
 
 ## Troubleshooting
 
