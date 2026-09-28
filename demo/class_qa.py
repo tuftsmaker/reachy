@@ -281,8 +281,8 @@ def main() -> None:
     ap.add_argument("--mode", choices=["enter", "auto"], default="enter")
     ap.add_argument("--text", action="store_true", help="type questions instead of speaking")
     ap.add_argument("--stt", choices=["auto", "deepgram", "whisper"], default="auto")
-    ap.add_argument("--tts", choices=["say", "deepgram"], default="say")
-    ap.add_argument("--voice", default="Samantha", help="macOS `say` voice")
+    ap.add_argument("--tts", choices=["auto", "say", "deepgram"], default="auto")
+    ap.add_argument("--voice", default="Samantha", help="macOS `say` voice (used with --tts say)")
     ap.add_argument("--deepgram-model", default="nova-3")
     ap.add_argument("--deepgram-voice", default="aura-asteria-en")
     ap.add_argument("--seconds", type=float, default=0, help="0 = run until Ctrl+C")
@@ -297,7 +297,11 @@ def main() -> None:
             "Deepgram selected but no key found. Put it in "
             "~/.config/tuftsmaker/deepgram_key or set DEEPGRAM_API_KEY."
         )
-    if args.tts == "deepgram" and not key:
+
+    tts = args.tts
+    if tts == "auto":
+        tts = "deepgram" if key else "say"
+    if tts == "deepgram" and not key:
         raise SystemExit("Deepgram TTS needs a key (see --stt deepgram note).")
 
     facts = load_facts(Path(os.path.expanduser(args.facts)))
@@ -325,7 +329,7 @@ def main() -> None:
                 ambient = max(0.002, rms(np.concatenate(calibration)))
             print(f"[mic] calibrated, ambient rms={ambient:.4f}")
 
-        print(f"Reachy class Q&A | model={args.model} | stt={stt} | tts={args.tts}")
+        print(f"Reachy class Q&A | model={args.model} | stt={stt} | tts={tts}")
         print("Ask a question about ENT-164. Ctrl+C to stop.\n")
 
         history: list = []
@@ -381,10 +385,10 @@ def main() -> None:
                     ]
                 )[-6:]
 
-                suffix = ".wav" if args.tts == "say" else ".mp3"
+                suffix = ".wav" if tts == "say" else ".mp3"
                 path = str(Path(tempfile.gettempdir()) / f"reachy-answer{suffix}")
                 try:
-                    if args.tts == "say":
+                    if tts == "say":
                         synth_say(answer, args.voice, path)
                     else:
                         synth_deepgram(answer, args.deepgram_voice, key, path)

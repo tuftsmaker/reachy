@@ -73,8 +73,9 @@ Reachy's speaker**, with head/antenna body language.
   `deepseek-v4.1-flash:cloud`; `--model` switches it, e.g. to a local model
   if the network is down.
 
-- **Speech**: macOS `say` by default (instant, offline). `--tts deepgram`
-  uses Deepgram Aura voices instead.
+- **Speech**: Deepgram Aura (`aura-asteria-en`) when a Deepgram key is
+  configured, macOS `say` otherwise (instant, offline). Force either with
+  `--tts say` / `--tts deepgram`.
 
 - **Knowledge**: `demo/class_facts.md`, extracted from the ENT-164 syllabus
   (the course repo is the source of truth). Regenerate with:

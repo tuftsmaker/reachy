@@ -108,7 +108,7 @@ Each is a small, runnable change an agent can make in a minute or two:
 | Camera black | Move a lamp; re-run `scripts/check.py` |
 | Face not detected | Sit closer, face the robot, brighten the room |
 | Q&A can't hear you | `--text` mode (typed questions still speak answers) |
-| No network | `--stt whisper` (local) and `--model gpt-oss:20b` (local) |
+| No network | `--stt whisper` (local), `--model gpt-oss:20b` (local), `--tts say` (offline voice) |
 | Daemon died | `zsh scripts/daemon.sh` again in its terminal |
 | Everything is weird | `pkill -f reachy-daemon-localhost`, wait 5 s, restart daemon |
 
