@@ -52,6 +52,23 @@ starts, and the camera/mic feed stays empty. `scripts/reachy_daemon_localhost.py
 binds the signalling server to `127.0.0.1` instead, which coexists with the
 tailnet listener.
 
+## The Mac *is* the robot's brain
+
+Reachy Mini **Lite has no computer inside it**: the robot's motors, camera,
+microphones and speaker are USB peripherals, and the daemon that drives them
+runs on the host Mac. That means:
+
+- The MacBook must stay connected (USB) while Reachy is in use. With only the
+  power supply connected the robot is inert — motors limp, no behaviors.
+- The Mac also needs internet for the default Q&A stack (Deepgram, Ollama
+  cloud); every cloud piece has an offline fallback (see below).
+- Keep the Mac awake while using it (`caffeinate -dimsu &`, or Energy
+  settings) — sleep stops the daemon and the robot with it.
+
+For true standalone operation you would need the Reachy Mini *Wireless*
+(onboard Raspberry Pi + battery), or a small always-on Linux host wired to
+the Lite instead of a laptop.
+
 ## Class Q&A (`demo/class_qa.py`)
 
 The pipeline: **Reachy's mic → speech-to-text → LLM → speech synthesis →

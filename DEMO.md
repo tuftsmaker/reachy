@@ -14,6 +14,9 @@ zsh scripts/daemon.sh
 ```
 
 - Robot powered from the wall supply, USB to the Mac, sitting clear of clutter.
+- Keep the Mac awake (`caffeinate -dimsu &`) and its USB cable connected --
+  the Lite has no onboard computer, so daemon + demos + cloud calls all run
+  on the Mac.
 - **Light matters**: the Lite camera is dim in low light and face detection
   needs a lit, frontal face. Put a desk lamp near the robot, aimed at where
   you (or volunteers) will sit.
